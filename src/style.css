@@ -2,3 +2,41 @@
 @import "flowbite-vue/index.css";
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite-vue";
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: var(--text-color);
+  background-color: var(--background-color);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --background-color: #333;
+  --text-color: #fff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+  background-color: var(--text-color);
+  color: var(--background-color);
+  padding: 0.3em 0.5em;
+}
+
+a {
+  color: #fff;
+}

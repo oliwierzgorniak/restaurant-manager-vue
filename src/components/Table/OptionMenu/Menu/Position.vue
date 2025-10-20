@@ -1,45 +1,43 @@
-<script setup lang="ts">
+<script setup>
 import RequestModal from "./Position/RequestModal.vue";
 import AllergensModal from "./Position/AllergensModal.vue";
-import type { initialOrderPositions } from "@/data";
 import { ref, inject } from "vue";
 
-const props = defineProps<{
-  position: { name: string; price: number; ingredients: string[] };
-  tableId: number;
-}>();
+const props = defineProps({
+  position: { name: String, price: Number, ingredients: Array },
+  tableId: Number,
+});
 
 const isRequestModalOpen = ref(false);
 const areAllergensOpen = ref(false);
-const tables = inject("tables") as (typeof initialOrderPositions)[];
+const tables = inject("tables");
 
-const changeAmount = (n: number) => {
-  const table = tables[props.tableId] as typeof initialOrderPositions;
-  // @ts-ignore
+const changeAmount = (n) => {
+  const table = tables[props.tableId];
+  console.log(table[props.position.name].amount);
   const currentAmount = table[props.position.name].amount;
   if ((currentAmount > 0 && n < 0) || n >= 0) {
-    // @ts-ignore
     tables[props.tableId][props.position.name].amount = currentAmount + n;
   }
 };
 </script>
 
 <template>
-  <div className="{styles.position}">
-    <label for="{position.name}">{{ position.name }}</label>
-    <div className="{styles.optionsContainer}">
+  <div class="position">
+    <label :for="position.name">{{ position.name }}</label>
+    <div class="optionsContainer">
       <input
-        className="{styles.input}"
+        class="input"
         type="number"
-        id="{position.name}"
+        :id="position.name"
         min="0"
-        value="{orderPositions[position.name].amount}"
-        @input="(e) => {
-            // @ts-ignore
-            const amount = e.target.value as number;
-            // @ts-ignore
+        :value="tables[tableId][position.name].amount"
+        @input="
+          (e) => {
+            const amount = e.target.value;
             tables[tableId][position.name].amount = amount;
-          }"
+          }
+        "
       />
       <button
         @click="
@@ -48,7 +46,7 @@ const changeAmount = (n: number) => {
             changeAmount(1);
           }
         "
-        className="{styles.addButton}"
+        class="addButton"
       >
         +
       </button>
@@ -59,7 +57,7 @@ const changeAmount = (n: number) => {
             changeAmount(-1);
           }
         "
-        className="{styles.subtractButton}"
+        class="subtractButton"
       >
         -
       </button>
@@ -98,3 +96,68 @@ const changeAmount = (n: number) => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.position {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 0.4em;
+}
+
+.position button {
+  padding: 0.2em 0.7em;
+}
+
+.optionsContainer {
+  display: flex;
+  gap: 0.25em;
+  font-size: 1.4rem;
+}
+
+.optionsContainer * {
+  font-size: 1.3rem;
+}
+
+.input::-webkit-inner-spin-button,
+.input::-webkit-outer-spin-button {
+  /* For Chrome, Safari, Edge, Opera */
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+.input {
+  -moz-appearance: textfield;
+  width: 3ch;
+  text-align: right;
+  color: black;
+}
+
+.finalButtonsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2.5em;
+}
+
+.orderButton,
+.cancelButton {
+  width: min-content;
+}
+
+.orderButton {
+  font-size: 1.8rem;
+  padding: 0.25em 0.5em;
+}
+
+.cancelButton {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  margin-top: 1.2em;
+  font-size: 1.1rem;
+}
+</style>

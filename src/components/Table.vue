@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import OptionMenu from "./OptionMenu.vue";
+import OptionMenu from "./Table/OptionMenu.vue";
 import { initialOrderPositions } from "@/data";
 import { provide, ref } from "vue";
 
@@ -10,14 +10,14 @@ defineProps<{
 const isOptionMenuOpen = ref(false);
 provide("isOptionMenuOpen", isOptionMenuOpen);
 const tableState = ref("Free");
-provide("tablesState", tableState);
-const bill = ref([]);
-provide("bill", bill);
+provide("tableState", tableState);
 </script>
 
 <template>
   <div class="table" @click="isOptionMenuOpen = true">
-    <span>{{ tableState == "Free" ? "" : tableState }}</span>
+    <span class="table__state" :style="{ opacity: tableState === 'Free' ? 0.5 : 1 }">{{
+      tableState
+    }}</span>
   </div>
   <OptionMenu
     v-if="isOptionMenuOpen"
@@ -29,7 +29,19 @@ provide("bill", bill);
 
 <style @scoped>
 .table {
+  border: 0.3em solid var(--text-color);
+  width: 100%;
   aspect-ratio: 3/2;
-  background-color: green;
+  font-size: 1.1rem;
+  font-weight: 550;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.table__state {
+  font-size: 1.5rem;
+  text-decoration: underline;
 }
 </style>
