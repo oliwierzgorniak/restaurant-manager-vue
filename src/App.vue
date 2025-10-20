@@ -1,11 +1,26 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Table from "./components/Table.vue";
+import { provide, reactive } from "vue";
+import { initialOrderPositions } from "./data";
+const TABLES_NUMBER = 10;
+const tablesSeed = Array(TABLES_NUMBER)
+  .fill(null)
+  .map(() => ({ ...initialOrderPositions }));
+const tables = reactive(tablesSeed);
+provide("tables", tables);
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <div class="container">
+    <Table v-for="(table, i) in tables" :table="table" :table-id="i" />
+  </div>
 </template>
 
-<style scoped></style>
+<style>
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4vw;
+  max-width: 100%;
+}
+</style>
