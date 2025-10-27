@@ -1,12 +1,8 @@
-<script setup lang="ts">
+<script setup>
 import OptionMenu from "./Table/OptionMenu.vue";
-import { initialOrderPositions } from "@/data";
 import { provide, ref } from "vue";
 
-defineProps<{
-  table: typeof initialOrderPositions;
-  tableId: number;
-}>();
+defineProps(["tableId", "table"]);
 const isOptionMenuOpen = ref(false);
 provide("isOptionMenuOpen", isOptionMenuOpen);
 const tableState = ref("Free");
@@ -15,9 +11,11 @@ provide("tableState", tableState);
 
 <template>
   <div class="table" @click="isOptionMenuOpen = true">
-    <span class="table__state" :style="{ opacity: tableState === 'Free' ? 0.5 : 1 }">{{
-      tableState
-    }}</span>
+    <span
+      class="table__state"
+      :style="{ opacity: tableState === 'Free' ? 0.5 : 1 }"
+      >{{ tableState }}</span
+    >
   </div>
   <OptionMenu
     v-if="isOptionMenuOpen"

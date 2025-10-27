@@ -13,7 +13,6 @@ const emit = defineEmits(["update:isBillMenuOpen"]);
 const downloadReceipt = (positions) => {
   let text = "Receipt\n";
   let totalAmount = 0;
-  w;
 
   let groupedPositions = {};
   positions.forEach((position) => {
@@ -54,7 +53,9 @@ const handleReceiptClick = (e) => {
     emit("update:isBillMenuOpen", false);
     isOptionMenuOpen.value = false;
   }
-  bills[props.tableId] = bills[props.tableId].filter((position) => !position.selected);
+  bills[props.tableId] = bills[props.tableId].filter(
+    (position) => !position.selected
+  );
 
   downloadReceipt(positions, link);
 };

@@ -1,13 +1,9 @@
-<script setup lang="ts">
+<script setup>
 import BillMenu from "./OptionMenu/BillMenu.vue";
 import Menu from "./OptionMenu/Menu.vue";
 import { ref } from "vue";
 
-const props = defineProps<{
-  tableId: number;
-  tableState: string;
-  isOptionMenuOpen: boolean;
-}>();
+const props = defineProps(["tableId", "tableState", "isOptionMenuOpen"]);
 
 const emit = defineEmits(["update:tableState", "update:isOptionMenuOpen"]);
 
@@ -26,11 +22,18 @@ const handleReserveClick = () => {
     <div class="optionMenu">
       <button @click="isOrderOpen = true">Order</button>
       <button @click="isBillMenuOpen = true">Bill</button>
-      <BillMenu v-if="isBillMenuOpen" v-model:isBillMenuOpen="isBillMenuOpen" :tableId="tableId" />
+      <BillMenu
+        v-if="isBillMenuOpen"
+        v-model:isBillMenuOpen="isBillMenuOpen"
+        :tableId="tableId"
+      />
       <button v-if="tableState != 'Busy'" @click="handleReserveClick">
         {{ tableState === "Reserved" ? "Unreserve" : "Reserve" }}
       </button>
-      <button @click="emit('update:isOptionMenuOpen', false)" class="optionMenuClose">
+      <button
+        @click="emit('update:isOptionMenuOpen', false)"
+        class="optionMenuClose"
+      >
         cancel
       </button>
     </div>
